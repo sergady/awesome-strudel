@@ -8,6 +8,12 @@ This repository keeps track of standout songs and covers from Strudel artists, h
 
 [Strudel](https://strudel.cc/) is a web-based live coding environment for making music. It allows you to create beats, melodies, and entire compositions by writing code in your browser. Inspired by TidalCycles, Strudel makes algorithmic music composition accessible to everyone—no installation required! You can experiment with patterns, samples, and synthesizers using JavaScript-like syntax, making it perfect for both beginners and experienced live coders.
 
+## Function dictionary
+
+Every function in this collection, with a description and an example: [Strudel function dictionary](https://sergady.github.io/awesome-strudel/).
+
+The site is one page, `docs/index.html`. Choosing a letter fills that same page with the functions for that letter. To publish it, open the repository settings, choose Pages, and deploy the `docs` folder on the `main` branch. Rebuild the dictionary data with `python3 scripts/build-site.py` after a dictionary file changes.
+
 ## 🎵 Featured Tracks
 
 | Song                                        | Artist   | Strudel Link                                           | Source                                                                                   |

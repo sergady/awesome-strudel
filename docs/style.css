@@ -1,0 +1,223 @@
+:root {
+  color-scheme: light;
+  --ink: #1c1915;
+  --muted: #5c564c;
+  --line: #e4ddd2;
+  --paper: #f7f3ec;
+  --card: #fffdf8;
+  --accent: #0f6e6b;
+  --accent-soft: #e5f3f2;
+  --code: #3d3428;
+  --code-bg: #f1ebe3;
+  --mono: "IBM Plex Mono", "ui-monospace", "SFMono-Regular", Menlo, Consolas, monospace;
+  --sans: "Source Sans 3", "Segoe UI", sans-serif;
+  --serif: "Iowan Old Style", Palatino, "Palatino Linotype", Georgia, serif;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 1.05rem;
+  line-height: 1.55;
+}
+
+a { color: var(--accent); }
+a:hover { text-decoration-thickness: 2px; }
+
+.wrap {
+  width: min(68rem, calc(100% - 2rem));
+  margin: 0 auto;
+}
+
+header.site {
+  padding: 1.5rem 0 1rem;
+  border-bottom: 1px solid var(--line);
+  background: var(--card);
+}
+
+header.site h1 {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: 2rem;
+  line-height: 1.15;
+  margin: 0 0 0.35rem;
+}
+
+header.site h1 a { color: inherit; text-decoration: none; }
+
+header.site p {
+  margin: 0;
+  color: var(--muted);
+  max-width: 40rem;
+}
+
+.tools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1rem;
+  align-items: end;
+  margin-top: 1rem;
+}
+
+label.search {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  flex: 1 1 16rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+input[type="search"] {
+  font: inherit;
+  color: var(--ink);
+  background: var(--paper);
+  border: 1px solid #cfc6b8;
+  border-radius: 0.4rem;
+  padding: 0.55rem 0.7rem;
+}
+
+input[type="search"]:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+#count { font-variant-numeric: tabular-nums; }
+
+.letters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.letters a {
+  display: inline-block;
+  min-width: 1.8rem;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 0.3rem;
+  padding: 0.2rem 0.35rem;
+  color: var(--ink);
+}
+
+.letters a:hover,
+.letters a[aria-current="page"] {
+  background: var(--accent);
+  color: white;
+}
+
+main { padding: 1.25rem 0 3rem; }
+
+.group { margin: 0 0 1.5rem; }
+.group h2 {
+  font-family: var(--serif);
+  font-size: 1.4rem;
+  margin: 0 0 0.4rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.names {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  columns: 3;
+}
+
+@media (max-width: 800px) {
+  .names { columns: 2; }
+}
+
+@media (max-width: 520px) {
+  .names { columns: 1; }
+}
+
+.names li { break-inside: avoid; padding: 0.12rem 0; }
+
+.names a { text-decoration: none; }
+.names a code {
+  font-family: var(--mono);
+  font-size: 0.92rem;
+  color: var(--ink);
+}
+
+.names a:hover code { color: var(--accent); }
+
+.alias {
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+#empty[hidden], [hidden] { display: none !important; }
+
+#empty {
+  color: var(--muted);
+  font-style: italic;
+}
+
+.jumps {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.8rem;
+  margin: 0 0 1.5rem;
+  padding: 0;
+  list-style: none;
+}
+
+.jumps a {
+  font-family: var(--mono);
+  font-size: 0.86rem;
+  text-decoration: none;
+}
+
+article.entry {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 0.5rem;
+  padding: 0.9rem 1rem 1rem;
+  margin: 0 0 0.9rem;
+}
+
+article.entry h2 {
+  font-family: var(--mono);
+  font-size: 1.15rem;
+  font-weight: 600;
+  margin: 0 0 0.6rem;
+}
+
+article.entry h2 a { color: inherit; text-decoration: none; }
+
+article.entry p { margin: 0.55rem 0; }
+
+article.entry code {
+  font-family: var(--mono);
+  font-size: 0.9em;
+  background: var(--code-bg);
+  color: var(--code);
+  padding: 0.05rem 0.28rem;
+  border-radius: 0.25rem;
+}
+
+article.entry pre {
+  margin: 0.7rem 0;
+  padding: 0.75rem 0.85rem;
+  overflow: auto;
+  background: #241f1a;
+  color: #f4efe6;
+  border-radius: 0.4rem;
+}
+
+article.entry pre code {
+  background: transparent;
+  color: inherit;
+  padding: 0;
+  font-size: 0.86rem;
+}
+
+article.entry ul { margin: 0.4rem 0 0.4rem 1.2rem; padding: 0; }
