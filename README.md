@@ -12,7 +12,7 @@ This repository keeps track of standout songs and covers from Strudel artists, h
 
 Every function in this collection, with a description and an example: [Strudel function dictionary](https://sergady.github.io/awesome-strudel/).
 
-The site is one page, `docs/index.html`. Choosing a letter fills that same page with the functions for that letter. To publish it, open the repository settings, choose Pages, and deploy the `docs` folder on the `main` branch. Rebuild the dictionary data with `python3 scripts/build-site.py` after a dictionary file changes.
+The site is one page, `docs/index.html`. Home presents the unofficial documentation introduction from `basic-functions-dictionary.md`. Choose All to browse and filter the full function index, or choose a letter to view its descriptions and examples. Links use URL fragments, so views and introduction sections can be bookmarked. To publish it, open the repository settings, choose Pages, and deploy the `docs` folder on the `main` branch. Rebuild the dictionary data with `python3 scripts/build-site.py` after a dictionary file changes.
 
 ## 🎵 Featured Tracks
 

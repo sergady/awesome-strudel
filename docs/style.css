@@ -221,3 +221,11 @@ article.entry pre code {
 }
 
 article.entry ul { margin: 0.4rem 0 0.4rem 1.2rem; padding: 0; }
+
+.letters { margin-top: 1rem; }
+.intro { margin-bottom: 1.5rem; }
+.introduction h2 { margin-top: 1.8rem; }
+.table-scroll { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 0.95rem; }
+th, td { padding: 0.6rem; border: 1px solid var(--line); text-align: left; }
+th { background: var(--code-bg); }

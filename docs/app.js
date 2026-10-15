@@ -21,6 +21,8 @@ const hashFor = (name) => {
 
 const parseHash = () => {
   const raw = decodeURIComponent(location.hash.replace(/^#/, ""));
+  if (raw === "all") return { view: "all", letter: "", name: "" };
+  if (raw === "home" || raw.startsWith("home/")) return { view: "home", letter: "", name: raw.slice(5) };
   if (!raw) return { view: "home", letter: "", name: "" };
   const slash = raw.indexOf("/");
   if (slash === -1 && data.letters.includes(raw)) return { view: "letter", letter: raw, name: "" };
@@ -35,8 +37,12 @@ const parseHash = () => {
   return { view: "letter", letter: byName.get(target).letter, name: target };
 };
 
-const renderNav = (current) => {
-  const links = [`<li><a href="#"${current ? "" : ' aria-current="page"'}>All</a></li>`];
+const renderNav = (route) => {
+  const current = route.letter;
+  const links = [
+    `<li><a href="#"${route.view === "home" ? ' aria-current="page"' : ""}>Home</a></li>`,
+    `<li><a href="#all"${route.view === "all" ? ' aria-current="page"' : ""}>All</a></li>`,
+  ];
   for (const letter of data.letters) {
     const currentAttr = letter === current ? ' aria-current="page"' : "";
     links.push(`<li><a href="#${letter}"${currentAttr}>${letter}</a></li>`);
@@ -44,7 +50,13 @@ const renderNav = (current) => {
   lettersEl.innerHTML = links.join("");
 };
 
-const renderHome = (needle) => {
+const renderHome = () => {
+  document.title = "Strudel function dictionary";
+  main.innerHTML = `<section class="intro"><p>This is unofficial documentation for the Strudel project. Visit the <a href="https://strudel.cc/">official Strudel website</a> for the project and its documentation.</p><p><a href="#all">Browse all functions →</a></p></section><article class="entry introduction">${data.basicHtml}</article>`;
+  countEl.textContent = "";
+};
+
+const renderAll = (needle) => {
   document.title = "Strudel function dictionary";
   input.placeholder = "Filter functions";
   const sections = [];
@@ -92,21 +104,25 @@ const renderLetter = (letter, name, needle, scroll) => {
 const render = (scroll) => {
   const route = parseHash();
   const needle = input.value.trim().toLowerCase();
-  renderNav(route.letter);
+  renderNav(route);
+  document.querySelector(".tools").hidden = route.view === "home";
   const sameView = shown.view === route.view && shown.letter === route.letter && shown.needle === needle;
   shown = { view: route.view, letter: route.letter, needle };
   if (sameView) {
     if (scroll && route.name) document.getElementById(route.name)?.scrollIntoView();
     return;
   }
-  if (route.view === "home") renderHome(needle);
+  if (route.view === "home") {
+    renderHome();
+    if (scroll && route.name) document.getElementById(route.name)?.scrollIntoView();
+  } else if (route.view === "all") renderAll(needle);
   else renderLetter(route.letter, route.name, needle, scroll);
 };
 
 input.addEventListener("input", () => render(false));
 window.addEventListener("hashchange", () => {
   const route = parseHash();
-  if (route.letter !== shown.letter) input.value = "";
+  if (route.view !== shown.view || route.letter !== shown.letter) input.value = "";
   render(true);
 });
 render(true);

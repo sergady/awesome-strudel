@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build docs/dictionary.js for the single-page dictionary site."""
+"""Build dictionary and introduction data for the single-page site."""
 import html
 import json
 import re
@@ -17,11 +17,23 @@ def escape(text):
     return html.escape(text, quote=True)
 
 
+def slug(text):
+    return re.sub(r"[^\w -]", "", text.lower()).replace(" ", "-")
+
+
 def rewrite_href(href):
     basic = re.match(r"^basic-functions-dictionary\.md(#.*)?$", href)
     if basic:
         anchor = basic.group(1) or ""
-        return "https://github.com/sergady/awesome-strudel/blob/main/basic-functions-dictionary.md" + anchor
+        return "#home" + ("/" + anchor[1:] if anchor else "")
+    if href.startswith("#"):
+        return "#home/" + href[1:]
+    if href == "function-dictionary.md":
+        return "#all"
+    if href == "README.md":
+        return "https://github.com/sergady/awesome-strudel/blob/main/README.md"
+    if href.startswith("../../packages/"):
+        return "https://github.com/tidalcycles/strudel/blob/main/" + href[6:]
     return href
 
 
@@ -48,6 +60,24 @@ def render_md(text):
     i = 0
     while i < len(lines):
         line = lines[i]
+        heading = re.match(r"^(#{1,6}) (.+)$", line)
+        if heading:
+            level = len(heading.group(1))
+            title = heading.group(2)
+            blocks.append(f'<h{level} id="{escape(slug(title))}">{inline(title)}</h{level}>')
+            i += 1
+            continue
+        if i + 1 < len(lines) and line.startswith("|") and re.fullmatch(r"[| :\-]+", lines[i + 1]):
+            def cells(row, tag):
+                return "".join(f"<{tag}>{inline(cell.strip())}</{tag}>" for cell in row.strip().strip("|").split("|"))
+            header = cells(line, "th")
+            i += 2
+            rows = []
+            while i < len(lines) and lines[i].startswith("|"):
+                rows.append("<tr>" + cells(lines[i], "td") + "</tr>")
+                i += 1
+            blocks.append('<div class="table-scroll"><table><thead><tr>' + header + '</tr></thead><tbody>' + "".join(rows) + '</tbody></table></div>')
+            continue
         if line.startswith("```") or line.startswith("~~~"):
             fence = line[:3]
             buf = []
@@ -106,7 +136,7 @@ def parse_entries(letter):
 
 def main():
     groups = parse_index()
-    payload = {"letters": [], "names": [], "entries": {}}
+    payload = {"letters": [], "names": [], "entries": {}, "basicHtml": render_md((ROOT / "basic-functions-dictionary.md").read_text().split("\n", 1)[1])}
     for group in groups:
         letter = group["letter"]
         payload["letters"].append(letter)
